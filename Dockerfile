@@ -1,5 +1,5 @@
 FROM node:22-alpine AS dependencies-env
-COPY .npmrc package.json /app/
+COPY package.json /app/
 WORKDIR /app
 RUN npm install --omit=dev
 
@@ -10,7 +10,7 @@ RUN npm install
 RUN npm run build
 
 FROM node:22-alpine
-COPY .npmrc package.json /app/
+COPY package.json /app/
 COPY --from=dependencies-env /app/node_modules /app/node_modules
 COPY --from=build-env /app/build /app/build
 COPY --from=build-env /app/public /app/public
